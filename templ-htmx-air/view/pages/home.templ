@@ -1,0 +1,19 @@
+package pages
+
+import "learn/pon/view/layout"
+import "learn/pon/view/partial/filter"
+import "time"
+
+templ Home() {
+	@layout.Base("Home") {
+		<div class="container mx-auto py-4">
+			<!-- Grid -->
+			<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+				@filter.DateRange(time.Now().Add(-24 * time.Hour), time.Now())
+			</div>
+		</div>
+		// @layout.Header()
+		// @components.SideMenu()
+		// @components.Table([]string{"A", "B", "C", "D"}, [][]string{{"Boom", "Woot", "Root", "Sexy"}})
+	}
+}
