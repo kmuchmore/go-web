@@ -2,14 +2,19 @@ package pages
 
 import "learn/pon/view/layout"
 import "learn/pon/view/partial/filter"
-import "time"
+import "learn/pon/domain"
+import "learn/pon/view/component"
 
-templ Home() {
+templ Home(filters domain.Filters, files []string) {
 	@layout.Base("Home") {
 		<div class="container mx-auto py-4">
 			<!-- Grid -->
 			<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-				@filter.DateRange(time.Now().Add(-24 * time.Hour), time.Now())
+				<div class="prose">
+					<h2 class="my-0">Filters</h2>
+					@filter.DateRange(filters.DateRange.Start, filters.DateRange.End, filters.DateRange.Valid())
+					@component.StringInput(component.NewStringInputCfg(component.WithEndpoint("/api/glob")))
+				</div>
 			</div>
 		</div>
 		// @layout.Header()

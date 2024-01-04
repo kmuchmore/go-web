@@ -14,8 +14,8 @@ tmp_dir = "tmp"
   follow_symlink = false
   full_bin = ""
   include_dir = []
-  include_ext = ["go", "templ"]
-  include_file = ["tailwind.config.js"]
+  include_ext = ["go", "templ", "js", "scss"]
+  include_file = []
   kill_delay = "0s"
   log = "build-errors.log"
   poll = false
@@ -39,7 +39,7 @@ tmp_dir = "tmp"
   time = false
 
 [misc]
-  clean_on_exit = false
+  clean_on_exit = true
 
 [screen]
   clear_on_rebuild = false

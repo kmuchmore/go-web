@@ -1,9 +1,0 @@
-services:
-  dev:
-    image: go-node:dev
-    build: .
-    volumes:
-      - .:/code
-    environment:
-      - GOPROXY=${GOPROXY}
-    command: bash -c "sleep infinity"

@@ -13,18 +13,32 @@ func main() {
 	app := echo.New()
 	pageHandler := handler.PageHandler{}
 	filterHandler := handler.FilterHandler{}
-	// fileHander := handler.FileHandler{}
+
+	store := sessions.NewCookieStore([]byte("supersecretninjastuff"))
+	store.Options = &sessions.Options{
+		Path:     "/",
+		MaxAge:   3600,
+		HttpOnly: true,
+		Secure:   false,
+	}
+
+	app.Use(session.MiddlewareWithConfig(session.Config{
+		Skipper: middleware.DefaultSkipper,
+		Store:   store,
+	}))
+
+	app.Use(pageHandler.DataCtxMiddleware)
 
 	app.Use(middleware.GzipWithConfig(middleware.GzipConfig{
 		Level:   5,
 		Skipper: middleware.DefaultSkipper,
 	}))
-	app.Use(session.Middleware(sessions.NewCookieStore([]byte("thisisagoodsecret"))))
+
 	app.Static("/static", "view/static")
 	app.GET("/", pageHandler.HandleHomePage)
 
 	api := app.Group("/api")
-	api.POST("/times", filterHandler.HandleDateRange)
+	api.POST("/time/:type", filterHandler.DateRange)
 
 	app.Start(":3000")
 }
