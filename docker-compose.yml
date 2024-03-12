@@ -4,6 +4,9 @@ services:
     build: .
     volumes:
       - .:/code
+    # dns:
+    #   - "10.0.0.12"
+    # network_mode: "host"
     environment:
       - GOPROXY=${GOPROXY}
     command: bash -c "sleep infinity"

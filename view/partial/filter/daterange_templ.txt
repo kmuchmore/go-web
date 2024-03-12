@@ -1,0 +1,8 @@
+<div><label class=\"form-control w-full max-w-xs\"><div class=\"label\"><span class=\"label-text\">
+</span></div>
+<input class=\"
+\" hx-post=\"
+\" type=\"datetime-local\" name=\"time\" value=\"
+\"></label></div>
+<div hx-target=\"this\" hx-swap=\"outerHTML\">
+</div>

@@ -1,0 +1,23 @@
+package filter
+
+import "time"
+
+const DateRangeFormat = "2006-01-02T15:04:05"
+
+templ DatetimeInput(label string, d time.Time, endpoint string, valid bool, errMsg string) {
+	<div>
+		<label class="form-control w-full max-w-xs">
+			<div class="label">
+				<span class="label-text">{ label }</span>
+			</div>
+			<input class={ "daterange input input-bordered w-full max-w-xs", templ.KV("input-error", !valid) } hx-post={ endpoint } type="datetime-local" name="time" value={ d.Format(DateRangeFormat) }/>
+		</label>
+	</div>
+}
+
+templ DateRange(start, end time.Time, valid bool) {
+	<div hx-target="this" hx-swap="outerHTML">
+		@DatetimeInput("Starting Date/Time", start, "/api/time/start", valid, "start date must be before end date")
+		@DatetimeInput("Ending Date/Time", end, "/api/time/end", valid, "end date must be after start date")
+	</div>
+}

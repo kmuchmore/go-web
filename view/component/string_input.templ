@@ -1,0 +1,39 @@
+package component
+
+type StringInputCfg struct {
+	endpoint    string
+	label       string
+	placeholder string
+	value       string
+	valid       bool
+	errMsg      string
+}
+
+type StringInputOpt func(s *StringInputCfg)
+
+func NewStringInputCfg(opts ...StringInputOpt) StringInputCfg {
+	cfg := StringInputCfg{}
+	for _, fn := range opts {
+		fn(&cfg)
+	}
+	return cfg
+}
+
+templ StringInput(cfg StringInputCfg) {
+	<div hx-target="this" hx-swap="outerHTML">
+		<label class="form-control w-full max-w-xs">
+			<div class="label">
+				<span class="label-text">{ cfg.label }</span>
+			</div>
+			<input class={ "input input-bordered w-full max-w-xs", templ.KV("input-error", !cfg.valid) } hx-post={ cfg.endpoint } type="text" name="time" value={ cfg.value }/>
+		</label>
+	</div>
+}
+
+func WithEndpoint(endpoint string) StringInputOpt {
+	return func(s *StringInputCfg) {
+		s.endpoint = endpoint
+	}
+}
+
+// Maybe seperate these out into their own directories (including DatetimeInput) and then add options to each
