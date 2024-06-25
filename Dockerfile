@@ -13,8 +13,8 @@ RUN --mount=type=cache,target=/var/cache/apt \
 ENV PATH /usr/local/lib/nodejs/bin:$PATH
 RUN mkdir -p /usr/local/lib/nodejs; \
     mkdir -p /tmp/build; \
-    wget -P /tmp/build https://nodejs.org/dist/v21.7.0/node-v21.7.0-linux-x64.tar.xz; \
-    tar -xJf /tmp/build/node-v21.7.0-linux-x64.tar.xz --strip-components 1 -C /usr/local/lib/nodejs; \
+    wget -P /tmp/build https://nodejs.org/dist/v22.3.0/node-v22.3.0-linux-x64.tar.xz; \
+    tar -xJf /tmp/build/node-v22.3.0-linux-x64.tar.xz --strip-components 1 -C /usr/local/lib/nodejs; \
     rm -rf /tmp/build; \
     npm install -g npm@latest; \
     npm install -g esbuild
