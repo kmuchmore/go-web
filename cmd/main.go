@@ -9,10 +9,11 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
+var dev = true
+
 func main() {
 	app := echo.New()
 	pageHandler := handler.PageHandler{}
-	filterHandler := handler.FilterHandler{}
 
 	store := sessions.NewCookieStore([]byte("supersecretninjastuff"))
 	store.Options = &sessions.Options{
@@ -22,12 +23,19 @@ func main() {
 		Secure:   false,
 	}
 
+	if dev {
+		app.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
+			return func(c echo.Context) error {
+				c.Response().Header().Set("Cache-Control", "no-store")
+				return next(c)
+			}
+		})
+	}
+
 	app.Use(session.MiddlewareWithConfig(session.Config{
 		Skipper: middleware.DefaultSkipper,
 		Store:   store,
 	}))
-
-	app.Use(pageHandler.DataCtxMiddleware)
 
 	app.Use(middleware.GzipWithConfig(middleware.GzipConfig{
 		Level:   5,
@@ -37,8 +45,7 @@ func main() {
 	app.Static("/static", "view/static")
 	app.GET("/", pageHandler.HandleHomePage)
 
-	api := app.Group("/api")
-	api.POST("/time/:type", filterHandler.DateRange)
+	// api := app.Group("/api")
 
 	if err := app.Start(":3000"); err != nil {
 		panic(err)

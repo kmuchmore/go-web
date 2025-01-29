@@ -5,15 +5,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func render(c echo.Context, component templ.Component) error {
-	cc := c.(*DataContext)
-	if cc.change {
-		cc.sess.Values["filters"] = cc.filters
-		cc.sess.Values["files"] = cc.files
-		if err := cc.sess.Save(cc.Request(), cc.Response()); err != nil {
-			return err
-		}
+func Render(ctx echo.Context, statusCode int, t templ.Component) error {
+	buf := templ.GetBuffer()
+	defer templ.ReleaseBuffer(buf)
+
+	if err := t.Render(ctx.Request().Context(), buf); err != nil {
+		return err
 	}
 
-	return component.Render(c.Request().Context(), c.Response())
+	return ctx.HTML(statusCode, buf.String())
 }

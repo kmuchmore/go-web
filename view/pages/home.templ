@@ -1,26 +1,24 @@
 package pages
 
-import "learn/pon/view/layout"
+import (
+	"learn/pon/view/component"
+	"learn/pon/view/layout"
+)
 
-import "learn/pon/view/partial/filter"
-import "learn/pon/view/component"
-import "learn/pon/domain"
-
-// import "learn/pon/view/component"
-templ Home(filters domain.Filters, files []string) {
+templ Home() {
 	@layout.Base("Home") {
-		<div class="container mx-auto py-4">
-			<!-- Grid -->
-			<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-				<div class="prose">
-					<h2 class="my-0">Filters</h2>
-					@filter.DateRange(filters.DateRange.Start, filters.DateRange.End, filters.DateRange.Valid())
-					@component.StringInput(component.NewStringInputCfg(component.WithEndpoint("/api/glob")))
-				</div>
+		<div class="drawer">
+			<input id="side-drawer" type="checkbox" class="drawer-toggle"/>
+			<div class="drawer-content">
+				@component.NavBar()
+			</div>
+			<div class="drawer-side">
+				<label for="side-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+				<ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+					<li><a>Sidebar Item 1</a></li>
+					<li><a>Sidebar Item 2</a></li>
+				</ul>
 			</div>
 		</div>
-		// @layout.Header()
-		// @components.SideMenu()
-		// @components.Table([]string{"A", "B", "C", "D"}, [][]string{{"Boom", "Woot", "Root", "Sexy"}})
 	}
 }
